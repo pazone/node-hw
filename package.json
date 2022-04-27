@@ -1,0 +1,22 @@
+{
+  "name": "pazonec-hw",
+  "version": "1.0.0",
+  "description": "test project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"all tests passed\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pazone/node-hw.git"
+  },
+  "author": "pazone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pazone/node-hw/issues"
+  },
+  "homepage": "https://github.com/pazone/node-hw#readme",
+  "devDependencies": {
+    "semantic-release": "^19.0.2"
+  }
+}
