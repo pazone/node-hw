@@ -18,6 +18,7 @@ pipeline {
     SLACK_CHANNEL = '#apm-agent-node'
     // todo: change
     NOTIFY_TO = 'pavel.zorin@elastic.co'
+    TOTP_SECRET = 'totp/code/npmjs-elasticmachine'
   }
   options {
     timeout(time: 3, unit: 'HOURS')
@@ -355,11 +356,21 @@ pipeline {
           }
         }
         stage('Release Notes') {
+          when {
+            expression { return false }
+          }
           steps {
             withGhEnv(forceInstallation: true, version: '2.4.0') {
               dir("${BASE_DIR}"){
                 cmd(label: 'make release-notes', script: 'make -C .ci release-notes')
               }
+            }
+          }
+        }
+        stage('Publish to npm') {
+          steps {
+            withTotpVault(secret: "${env.TOTP_SECRET}", code_var_name: 'TOTP_CODE') {
+              cmd(label: 'make npm-publish', script: 'make -C .ci npm-publish')
             }
           }
         }

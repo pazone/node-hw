@@ -1,6 +1,6 @@
 {
-  "name": "pazonec-hw",
-  "version": "1.0.0",
+  "name": "test-2fa",
+  "version": "0.1.0",
   "description": "test project",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,6 @@
     "url": "https://github.com/pazone/node-hw/issues"
   },
   "homepage": "https://github.com/pazone/node-hw#readme",
-  "devDependencies": {
-    "semantic-release": "^19.0.2"
+  "devDependencies": {    
   }
 }
