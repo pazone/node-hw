@@ -369,6 +369,7 @@ pipeline {
         }
         stage('Publish to npm') {
           steps {
+            unstash 'source'
             withTotpVault(secret: "${env.TOTP_SECRET}", code_var_name: 'TOTP_CODE') {
               cmd(label: 'make npm-publish', script: 'make -C .ci npm-publish')
             }
