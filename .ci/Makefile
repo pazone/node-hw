@@ -8,4 +8,5 @@ release-notes:
 
 
 npm-publish: 
+	@ls -lah
 	@npm publish --otp ${TOTP_CODE}
