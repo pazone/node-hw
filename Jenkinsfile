@@ -376,7 +376,7 @@ pipeline {
               withTotpVault(secret: "${env.TOTP_SECRET}", code_var_name: 'TOTP_CODE') {    
                 dir("${BASE_DIR}") {  
                   sh 'ls -lah'        
-                  cmd(label: 'make npm-publish', script: 'make -C .ci npm-publish')
+                  cmd(label: 'make npm-publish', script: 'make -f .ci/Makefile npm-publish')
                 }
               }
             }
