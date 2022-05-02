@@ -18,6 +18,7 @@ pipeline {
     SLACK_CHANNEL = '#apm-agent-node'
     // todo: change
     NOTIFY_TO = 'pavel.zorin@elastic.co'
+    NPMRC_SECRET = 'secret/jenkins-ci/npmjs/elasticmachine'
     TOTP_SECRET = 'totp/code/npmjs-elasticmachine'
   }
   options {
@@ -372,11 +373,12 @@ pipeline {
             deleteDir()
             unstash 'source'
             sh 'ls -lah'
-            withNodeJSEnv(version: 'v14.17.5'){
-              withTotpVault(secret: "${env.TOTP_SECRET}", code_var_name: 'TOTP_CODE') {    
-                dir("${BASE_DIR}") {  
-                  sh 'ls -lah'        
-                  cmd(label: 'make npm-publish', script: 'make -f .ci/Makefile npm-publish')
+            withNodeJSEnv(version: 'v14.17.5') {
+              withNpmrc(secret: "${env.NPMRC_SECRET}", path: "${env.WORKSPACE}/${env.BASE_DIR}") {
+                withTotpVault(secret: "${env.TOTP_SECRET}", code_var_name: 'TOTP_CODE') {    
+                  dir("${BASE_DIR}") {                           
+                    sh(label: 'npm-publish', script: 'npm publish --otp ${TOTP_CODE}')
+                  }
                 }
               }
             }
