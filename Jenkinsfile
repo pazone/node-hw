@@ -372,8 +372,10 @@ pipeline {
             deleteDir()
             unstash 'source'
             sh 'ls -lah'
-            withTotpVault(secret: "${env.TOTP_SECRET}", code_var_name: 'TOTP_CODE') {              
-              cmd(label: 'make npm-publish', script: 'make -C .ci npm-publish')
+            withTotpVault(secret: "${env.TOTP_SECRET}", code_var_name: 'TOTP_CODE') {    
+              dir("${BASE_DIR}"){          
+                cmd(label: 'make npm-publish', script: 'make -C .ci npm-publish')
+              }
             }
           }
         }
