@@ -51,7 +51,7 @@ pipeline {
         deleteDir()
         gitCheckout(basedir: "${BASE_DIR}", githubNotifyFirstTimeContributor: true,
                     shallow: false, reference: "/var/lib/jenkins/.git-references/${REPO}.git")
-        stash allowEmpty: true, name: 'source', useDefaultExcludes: false
+        stash allowEmpty: true, name: 'source', useDefaultExcludes: false, excludes: '.git'
         script {
           dir("${BASE_DIR}"){
             def regexps =[
@@ -369,6 +369,7 @@ pipeline {
         }
         stage('Publish to npm') {
           steps {
+            deleteDir()
             unstash 'source'
             withTotpVault(secret: "${env.TOTP_SECRET}", code_var_name: 'TOTP_CODE') {
               cmd(label: 'make npm-publish', script: 'make -C .ci npm-publish')
