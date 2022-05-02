@@ -372,9 +372,9 @@ pipeline {
             deleteDir()
             unstash 'source'
             sh 'ls -lah'
-            withNode(labels: 'linux && immutable', forceWorkspace: true, forceWorker: true) {
+            withNodeJSEnv(version: 'v14.17.5'){
               withTotpVault(secret: "${env.TOTP_SECRET}", code_var_name: 'TOTP_CODE') {    
-                dir("${BASE_DIR}"){  
+                dir("${BASE_DIR}") {  
                   sh 'ls -lah'        
                   cmd(label: 'make npm-publish', script: 'make -C .ci npm-publish')
                 }
